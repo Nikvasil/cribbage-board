@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
+import {generatePlayerName} from "./utils/generateName";
 
 function App() {
   return (
       <div className="app">
           <div className="player player-left">
-              <div className="player-name">Green Giraffe</div>
+              <div className="player-name">{generatePlayerName()}</div>
               <div className="counter">0</div>
               <div className="cribbage-board">
                   {[41, 41, 39].map((count, i) => (
@@ -30,11 +31,17 @@ function App() {
                       </div>
                       <button className="control-btn return-btn">⟲</button>
                   </div>
+              </div>
+              <div className="toggle-wrapper">
+                  <label className="toggle-switch">
+                      <input type="checkbox"/>
+                      <span className="slider"></span>
+                  </label>
               </div>
           </div>
           <div className="divider"/>
           <div className="player player-right">
-              <div className="player-name">Orange Rhino</div>
+              <div className="player-name">{generatePlayerName()}</div>
               <div className="counter">0</div>
               <div className="cribbage-board">
                   {[41, 41, 39].map((count, i) => (
@@ -59,6 +66,12 @@ function App() {
                       </div>
                       <button className="control-btn return-btn">⟲</button>
                   </div>
+              </div>
+              <div className="toggle-wrapper">
+                  <label className="toggle-switch">
+                      <input type="checkbox"/>
+                      <span className="slider"></span>
+                  </label>
               </div>
           </div>
       </div>
