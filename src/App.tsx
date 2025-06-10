@@ -3,34 +3,47 @@ import './App.css';
 import {useState} from "react";
 import {generatePlayerName} from "./utils/generateName";
 import {controlValues} from "./data/controlValues";
+import {CribbageBoard} from "./components/CribbageBoard";
 
 function App() {
-    const [player1Name] = useState(generatePlayerName());
-    const [player2Name] = useState(generatePlayerName());
+    const [winner, setWinner] = useState<string | null>(null);
+    const [player1Name, setPlayer1Name] = useState(generatePlayerName());
+    const [player2Name, setPlayer2Name] = useState(generatePlayerName());
     const [player1Score, setPlayer1Score] = useState(0);
     const [player2Score, setPlayer2Score] = useState(0);
 
+    const resetGame = () => {
+        setPlayer1Score(0);
+        setPlayer2Score(0);
+        setPlayer1Name(generatePlayerName());
+        setPlayer2Name(generatePlayerName());
+        setWinner(null);
+    };
+
     const handleControl = (player: 1 | 2, label: string) => {
         const value = controlValues[label.toUpperCase()] ?? parseInt(label, 10);
-        if (!isNaN(value)) {
-            if (player === 1) setPlayer1Score((prev) => prev + value);
-            else setPlayer2Score((prev) => prev + value);
+        if (player === 1) {
+            setPlayer1Score(prev => {
+                const updated = prev + value;
+                if (updated >= 121) setWinner(player1Name);
+                return Math.min(updated, 121);
+            });
+        } else {
+            setPlayer2Score(prev => {
+                const updated = prev + value;
+                if (updated >= 121) setWinner(player2Name);
+                return Math.min(updated, 121);
+            });
         }
     };
+
   return (
-      <div className="app">
+      <>
+      <div className={`app ${winner ? "fade" : ""}`}>
           <div className="player player-left">
               <div className="player-name">{player1Name}</div>
               <div className="counter">{player1Score}</div>
-              <div className="cribbage-board">
-                  {[41, 41, 39].map((count, i) => (
-                      <div className="crib-line" key={i}>
-                          {Array.from({length: count}).map((_, j) => (
-                              <div className="crib-dot" key={j}/>
-                          ))}
-                      </div>
-                  ))}
-              </div>
+              <CribbageBoard score={player1Score}/>
               <div className="controls">
                   <div className="controls-row">
                       <div className="preset-grid">
@@ -59,15 +72,7 @@ function App() {
           <div className="player player-right">
               <div className="player-name">{player2Name}</div>
               <div className="counter">{player2Score}</div>
-              <div className="cribbage-board">
-                  {[41, 41, 39].map((count, i) => (
-                      <div className="crib-line" key={i}>
-                          {Array.from({length: count}).map((_, j) => (
-                              <div className="crib-dot" key={j}/>
-                          ))}
-                      </div>
-                  ))}
-              </div>
+              <CribbageBoard score={player2Score}/>
               <div className="controls">
                   <div className="controls-row">
                       <div className="preset-grid">
@@ -93,6 +98,15 @@ function App() {
               </div>
           </div>
       </div>
+          {winner && <div className="overlay"></div>}
+
+          {winner && (
+              <div className="winner-overlay">
+                  <div>{winner} wins!</div>
+                  <button onClick={resetGame}>New Game</button>
+              </div>
+          )}
+      </>
   );
 }
 
