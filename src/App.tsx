@@ -10,16 +10,21 @@ function App() {
     const [winner, setWinner] = useState<string | null>(null);
     const [player1Name, setPlayer1Name] = useState(generatePlayerName());
     const [player2Name, setPlayer2Name] = useState(generatePlayerName());
-    const [player1Score, setPlayer1Score] = useState(0);
-    const [player2Score, setPlayer2Score] = useState(0);
     const [player1Log, setPlayer1Log] = useState<number[]>([]);
     const [player2Log, setPlayer2Log] = useState<number[]>([]);
+    const [player1History, setPlayer1History] = useState<number[]>([0]);
+    const [player2History, setPlayer2History] = useState<number[]>([0]);
+
+    const player1Score = player1History[player1History.length - 1];
+    const player2Score = player2History[player2History.length - 1];
 
     const resetGame = () => {
-        setPlayer1Score(0);
-        setPlayer2Score(0);
+        setPlayer1History([0]);
+        setPlayer2History([0]);
         setPlayer1Name(generatePlayerName());
         setPlayer2Name(generatePlayerName());
+        setPlayer1Log([]);
+        setPlayer2Log([]);
         setWinner(null);
     };
 
@@ -29,18 +34,26 @@ function App() {
         const value = controlValues[label.toUpperCase()] ?? parseInt(label, 10);
         if (isNaN(value)) return;
 
-        const MAX_LOG_ENTRIES = 10;
-
         if (player === 1) {
             const newScore = Math.min(player1Score + value, 121);
-            setPlayer1Score(newScore);
-            setPlayer1Log(prev => [...prev.slice(-MAX_LOG_ENTRIES + 1), value]);
+            setPlayer1History([...player1History, player1Score + value]);
+            setPlayer1Log(prev => [...prev, value]);
             if (newScore >= 121) setWinner(player1Name);
         } else {
             const newScore = Math.min(player2Score + value, 121);
-            setPlayer2Score(newScore);
-            setPlayer2Log(prev => [...prev.slice(-MAX_LOG_ENTRIES + 1), value]);
+            setPlayer2History([...player2History, player2Score + value]);
+            setPlayer2Log(prev => [...prev, value]);
             if (newScore >= 121) setWinner(player2Name);
+        }
+    };
+
+    const handleUndo = (player: number) => {
+        if (player === 1 && player1History.length > 1) {
+            setPlayer1History(player1History.slice(0, -1));
+            setPlayer1Log(player1Log.slice(0, -1));
+        } else if (player === 2 && player2History.length > 1) {
+            setPlayer2History(player2History.slice(0, -1));
+            setPlayer2Log(player2Log.slice(0, -1));
         }
     };
 
@@ -66,7 +79,7 @@ function App() {
                                       onClick={() => handleControl(1, String(i + 1))}>{i + 1}</button>
                           ))}
                       </div>
-                      <button className="control-btn return-btn">⟲</button>
+                      <button className="control-btn return-btn" onClick={() => handleUndo(1)}>⟲</button>
                   </div>
               </div>
               <div className="toggle-wrapper">
@@ -96,7 +109,7 @@ function App() {
                                       onClick={() => handleControl(2, String(i + 1))}>{i + 1}</button>
                           ))}
                       </div>
-                      <button className="control-btn return-btn">⟲</button>
+                      <button className="control-btn return-btn"  onClick={() => handleUndo(2)}>⟲</button>
                   </div>
               </div>
               <div className="toggle-wrapper">

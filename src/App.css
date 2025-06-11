@@ -286,13 +286,32 @@ html, body, #root {
   font-family: 'Share Tech Mono', monospace;
   font-size: 1rem;
   color: white;
-  max-height: 20rem;
-  overflow: hidden;
+  max-height: 15rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.point-log::-webkit-scrollbar {
+  width: 6px;
+  opacity: 0;
+}
+
+.point-log:hover::-webkit-scrollbar {
+  opacity: 1;
+}
+
+.point-log::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
 }
 
 .player-right .point-log {
   left: auto;
   right: 6rem;
+}
+
+.point-log-entry {
+  animation: fadeIn 0.4s ease-in;
 }
 
 
