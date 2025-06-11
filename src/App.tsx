@@ -4,6 +4,7 @@ import {useState} from "react";
 import {generatePlayerName} from "./utils/generateName";
 import {controlValues} from "./data/controlValues";
 import {CribbageBoard} from "./components/CribbageBoard";
+import {PointLog} from "./components/PointLog";
 
 function App() {
     const [winner, setWinner] = useState<string | null>(null);
@@ -11,6 +12,8 @@ function App() {
     const [player2Name, setPlayer2Name] = useState(generatePlayerName());
     const [player1Score, setPlayer1Score] = useState(0);
     const [player2Score, setPlayer2Score] = useState(0);
+    const [player1Log, setPlayer1Log] = useState<number[]>([]);
+    const [player2Log, setPlayer2Log] = useState<number[]>([]);
 
     const resetGame = () => {
         setPlayer1Score(0);
@@ -21,19 +24,23 @@ function App() {
     };
 
     const handleControl = (player: 1 | 2, label: string) => {
+        if (winner) return;
+
         const value = controlValues[label.toUpperCase()] ?? parseInt(label, 10);
+        if (isNaN(value)) return;
+
+        const MAX_LOG_ENTRIES = 10;
+
         if (player === 1) {
-            setPlayer1Score(prev => {
-                const updated = prev + value;
-                if (updated >= 121) setWinner(player1Name);
-                return Math.min(updated, 121);
-            });
+            const newScore = Math.min(player1Score + value, 121);
+            setPlayer1Score(newScore);
+            setPlayer1Log(prev => [...prev.slice(-MAX_LOG_ENTRIES + 1), value]);
+            if (newScore >= 121) setWinner(player1Name);
         } else {
-            setPlayer2Score(prev => {
-                const updated = prev + value;
-                if (updated >= 121) setWinner(player2Name);
-                return Math.min(updated, 121);
-            });
+            const newScore = Math.min(player2Score + value, 121);
+            setPlayer2Score(newScore);
+            setPlayer2Log(prev => [...prev.slice(-MAX_LOG_ENTRIES + 1), value]);
+            if (newScore >= 121) setWinner(player2Name);
         }
     };
 
@@ -43,6 +50,7 @@ function App() {
           <div className="player player-left">
               <div className="player-name">{player1Name}</div>
               <div className="counter">{player1Score}</div>
+              <PointLog log={player1Log} />
               <CribbageBoard score={player1Score}/>
               <div className="controls">
                   <div className="controls-row">
@@ -72,6 +80,7 @@ function App() {
           <div className="player player-right">
               <div className="player-name">{player2Name}</div>
               <div className="counter">{player2Score}</div>
+              <PointLog log={player2Log} />
               <CribbageBoard score={player2Score}/>
               <div className="controls">
                   <div className="controls-row">

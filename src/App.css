@@ -274,3 +274,25 @@ html, body, #root {
   }
 }
 
+.point-log {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  position: absolute;
+  right: 6rem;
+  top: 40%;
+  transform: translateY(-50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  color: white;
+  max-height: 20rem;
+  overflow: hidden;
+}
+
+.player-right .point-log {
+  left: auto;
+  right: 6rem;
+}
+
+
