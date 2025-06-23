@@ -46,7 +46,7 @@ export const PlayerPanel = ({
                 />
                 <span className="slider"></span>
             </label>
-            <label className="toggle-label toggle-label-bottom">Scoring</label>
+            <label className="toggle-label toggle-label-bottom">Play</label>
         </div>
     </div>
 );
