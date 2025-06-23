@@ -275,6 +275,7 @@ body {
   max-height: 15rem;
   overflow-y: auto;
   scrollbar-width: none;
+  color: #ccc;
 }
 
 .point-log::-webkit-scrollbar {
