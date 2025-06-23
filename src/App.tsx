@@ -3,6 +3,7 @@ import './App.css';
 import { PlayerPanel } from "./components/PlayerPanel";
 import { usePlayerState } from "./hooks/usePlayerState";
 import { controlValues } from "./data/controlValues";
+import {generatePlayerName} from "./utils/generateName";
 
 function App() {
     const p1 = usePlayerState();
@@ -46,6 +47,11 @@ function App() {
         state.undo();
     };
 
+    const handleNameGenerator = (player: number) => {
+        const state = player === 1 ? p1 : p2;
+        state.setName(generatePlayerName);
+    };
+
     const resetGame = () => {
         p1.reset();
         p2.reset();
@@ -61,6 +67,7 @@ function App() {
                     handleControl={handleControl}
                     handleSubmitInput={handleSubmitInput}
                     handleUndo={handleUndo}
+                    handleNameGenerator={handleNameGenerator}
                 />
                 <div className="divider" />
                 <PlayerPanel
@@ -69,6 +76,7 @@ function App() {
                     handleControl={handleControl}
                     handleSubmitInput={handleSubmitInput}
                     handleUndo={handleUndo}
+                    handleNameGenerator={handleNameGenerator}
                 />
             </div>
             {winner && <div className="overlay"></div>}

@@ -8,13 +8,15 @@ export const PlayerPanel = ({
                                 state,
                                 handleControl,
                                 handleSubmitInput,
-                                handleUndo
+                                handleUndo,
+                                handleNameGenerator
                             }: {
     id: 1 | 2;
     state: any;
     handleControl: (player: 1 | 2, label: string) => void;
     handleSubmitInput: (player: number) => void;
     handleUndo: (player: number) => void;
+    handleNameGenerator: (player: number) => void;
 }) => (
     <div className={`player ${id === 1 ? "player-left" : "player-right"}`}>
         <div className="player-name">{state.name}</div>
@@ -33,8 +35,9 @@ export const PlayerPanel = ({
             handleUndo={handleUndo}
             handleSubmitInput={handleSubmitInput}
         />
-        <div className="toggle-section">
-            <div className="toggle-label">Scoring</div>
+        <div className="random-name-btn"  onClick={() => handleNameGenerator(id)}>⚂⚄</div>
+        <div className={`toggle-section ${state.toggle ? 'toggled' : 'not-toggled'}`}>
+            <label className="toggle-label toggle-label-top">Scoring</label>
             <label className="toggle-switch">
                 <input
                     type="checkbox"
@@ -43,7 +46,7 @@ export const PlayerPanel = ({
                 />
                 <span className="slider"></span>
             </label>
-            <div className="toggle-label">Play</div>
+            <label className="toggle-label toggle-label-bottom">Scoring</label>
         </div>
     </div>
 );

@@ -52,7 +52,7 @@ export const ControlPanel = ({
                             </button>
                         </div>
                         <div className="input-btn-wrapper">
-                            <button className="control-btn input-btn" onClick={() => handleSubmitInput(player)}>→
+                            <button className="control-btn input-btn" onClick={() => handleSubmitInput(player)}>↵
                             </button>
                         </div>
                     </div>

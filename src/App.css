@@ -55,6 +55,21 @@ body {
   background-color: #555;
 }
 
+.random-name-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 2.5rem;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.random-name-btn:hover {
+  color: #f7a707;
+}
+
 /* === Cribbage Board === */
 .cribbage-board {
   display: flex;
@@ -74,10 +89,11 @@ body {
 }
 
 .crib-dot {
-  width: 0.1rem;
-  height: 0.1rem;
+  width: 0.15rem;
+  height: 0.15rem;
   background-color: #878787;
   border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
 /* === Controls === */
@@ -156,17 +172,15 @@ body {
   align-items: center;
 }
 
+.input-btn {
+  background-color: #f7a707;
+}
+
 .input-btn-wrapper, .zero-btn-wrapper, .erase-btn-wrapper {
   animation: fadeIn 0.3s ease-out;
 }
 
 /* === Toggle Switch === */
-.toggle-wrapper {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-}
-
 .toggle-section {
   position: absolute;
   bottom: 2rem;
@@ -177,10 +191,23 @@ body {
   gap: 0.5rem;
 }
 
+.toggle-section.toggled .toggle-label-top {
+  color: #f7a707;
+}
+
+.toggle-section.not-toggled .toggle-label-bottom {
+  color: white;
+}
+
+.toggle-section.toggled .slider {
+  background-color: #f7a707;
+}
+
 .toggle-label {
   color: #ccc;
   font-size: 0.9rem;
   font-family: 'Share Tech Mono', monospace;
+  transition: color 0.3s ease;
 }
 
 .toggle-switch {

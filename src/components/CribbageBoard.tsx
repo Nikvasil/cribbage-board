@@ -19,7 +19,7 @@ export const CribbageBoard: React.FC<Props> = ({ score }) => {
                             <div
                                 key={i}
                                 className="crib-dot"
-                                style={{ backgroundColor: filled ? "white" : "#444" }}
+                                style={{ backgroundColor: filled ? "#f7a707" : "white" }}
                             />
                         );
                     })}
