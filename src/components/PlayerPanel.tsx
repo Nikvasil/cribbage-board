@@ -35,7 +35,7 @@ export const PlayerPanel = ({
             handleUndo={handleUndo}
             handleSubmitInput={handleSubmitInput}
         />
-        <div className="random-name-btn"  onClick={() => handleNameGenerator(id)}>⚂⚄</div>
+        <div className="random-name-btn"  onClick={() => handleNameGenerator(id)}>⇄</div>
         <div className={`toggle-section ${state.toggle ? 'toggled' : 'not-toggled'}`}>
             <label className="toggle-label toggle-label-top">Scoring</label>
             <label className="toggle-switch">
